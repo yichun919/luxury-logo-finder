@@ -694,12 +694,56 @@
       };
 
       const WORDMARK_OVERRIDES = {
+        blancpain: {
+          label: "Blancpain",
+          text: "BLANCPAIN",
+          subText: "1735",
+          note: "Curated watch wordmark override",
+          linkText: "Check official Blancpain site",
+          linkUrl: "https://www.blancpain.com/",
+          fontSize: 106,
+          letterSpacing: 9,
+          subFontSize: 34,
+          subLetterSpacing: 6,
+        },
+        breguet: {
+          label: "Breguet",
+          text: "Breguet",
+          note: "Curated watch wordmark override",
+          linkText: "Check official Breguet site",
+          linkUrl: "https://www.breguet.com/",
+          fontSize: 148,
+          letterSpacing: 1,
+          fontStyle: "italic",
+          fontWeight: 400,
+        },
         "la mer": {
           label: "La Mer",
           text: "LA MER",
           note: "Curated beauty wordmark override",
           linkText: "Check official La Mer site",
           linkUrl: "https://www.cremedelamer.com/",
+        },
+        diptyque: {
+          label: "Diptyque",
+          text: "diptyque",
+          note: "Curated beauty wordmark override",
+          linkText: "Check official Diptyque site",
+          linkUrl: "https://www.diptyqueparis.com/",
+          fontSize: 136,
+          letterSpacing: 2,
+          fontWeight: 400,
+        },
+        moncler: {
+          label: "Moncler",
+          text: "MONCLER",
+          note: "Curated fashion wordmark override",
+          linkText: "Check official Moncler site",
+          linkUrl: "https://www.moncler.com/",
+          fontFamily: '"DM Sans", Arial, sans-serif',
+          fontSize: 112,
+          letterSpacing: 14,
+          fontWeight: 700,
         },
         "saint laurent": {
           label: "Saint Laurent",
@@ -833,8 +877,14 @@
         ctx.fillStyle = "#000000";
         ctx.textAlign = "left";
         ctx.textBaseline = "middle";
-        ctx.font = '500 108px "Cormorant Garamond", "Times New Roman", serif';
-        drawLetterspacedText(ctx, override.text, wordmark.width / 2, wordmark.height / 2, 12);
+        const family = override.fontFamily || '"Cormorant Garamond", "Times New Roman", serif';
+        ctx.font = `${override.fontStyle || "normal"} ${override.fontWeight || 500} ${override.fontSize || 108}px ${family}`;
+        const mainY = override.subText ? wordmark.height / 2 - 22 : wordmark.height / 2;
+        drawLetterspacedText(ctx, override.text, wordmark.width / 2, mainY, override.letterSpacing ?? 12);
+        if (override.subText) {
+          ctx.font = `${override.subFontWeight || 400} ${override.subFontSize || 32}px ${family}`;
+          drawLetterspacedText(ctx, override.subText, wordmark.width / 2, wordmark.height / 2 + 66, override.subLetterSpacing ?? 4);
+        }
 
         window._logo = wordmark;
         window._logoSource = "override";
